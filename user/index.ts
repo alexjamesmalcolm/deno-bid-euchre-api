@@ -3,17 +3,13 @@ import {
   APIGatewayProxyResult,
   Context,
 } from "../dependencies.ts";
-
-const log = (a: any) => ({
-  statusCode: 200,
-  headers: { "content-type": "application/json" },
-  body: JSON.stringify(a, null, 2),
-});
+import { log } from "../utils.ts";
 
 export async function userHandler(
   event: APIGatewayProxyEvent,
   context: Context,
 ): Promise<APIGatewayProxyResult> {
+  return log(event);
   // return {
   //   statusCode: 200,
   //   headers: { "content-type": "text/html;charset=utf8" },
