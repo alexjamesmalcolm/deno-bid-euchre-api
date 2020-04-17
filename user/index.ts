@@ -2,7 +2,7 @@ import {
   APIGatewayProxyEvent,
   APIGatewayProxyResult,
   Context,
-} from "https://deno.land/x/lambda/mod.ts";
+} from "../dependencies.ts";
 
 const log = (a: any) => ({
   statusCode: 200,
