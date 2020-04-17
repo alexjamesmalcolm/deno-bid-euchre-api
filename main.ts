@@ -12,11 +12,11 @@ export async function handler(
   event: APIGatewayProxyEvent,
   context: Context,
 ): Promise<APIGatewayProxyResult> {
-  const resource: string = event.path;
-  if (resource.startsWith("/user")) return userHandler(event, context);
-  else if (resource.startsWith("/lobby")) return lobbyHandler(event, context);
-  else if (resource.startsWith("/leaderboard")) {
+  const { path } = event;
+  if (path.startsWith("/user")) return userHandler(event, context);
+  else if (path.startsWith("/lobby")) return lobbyHandler(event, context);
+  else if (path.startsWith("/leaderboard")) {
     return leaderboardHandler(event, context);
-  } else if (resource.startsWith("/game")) return gameHandler(event, context);
-  else return { statusCode: 404, body: "" };
+  } else if (path.startsWith("/game")) return gameHandler(event, context);
+  else return { statusCode: 404, body: `No route found for ${path}` };
 }
