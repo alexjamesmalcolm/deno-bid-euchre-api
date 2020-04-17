@@ -2,7 +2,7 @@ import {
   APIGatewayProxyEvent,
   APIGatewayProxyResult,
   Context,
-} from "./dependencies.ts";
+} from "./deps.ts";
 import { userHandler } from "./user/index.ts";
 import { lobbyHandler } from "./lobby/index.ts";
 import { leaderboardHandler } from "./leaderboard/index.ts";
@@ -18,5 +18,5 @@ export async function handler(
   else if (resource.startsWith("/leaderboard")) {
     return leaderboardHandler(event, context);
   } else if (resource.startsWith("/game")) return gameHandler(event, context);
-  else return { statusCode: 404 };
+  else return { statusCode: 404, body: "" };
 }

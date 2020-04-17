@@ -2,7 +2,7 @@ import {
   APIGatewayProxyEvent,
   APIGatewayProxyResult,
   Context,
-} from "../dependencies.ts";
+} from "../deps.ts";
 import { log } from "../utils.ts";
 
 export async function userHandler(
