@@ -2,21 +2,113 @@ import {
   APIGatewayProxyEvent,
   APIGatewayProxyResult,
   Context,
-  Doc,
+  uuid,
 } from "../deps.ts";
-import { log } from "../utils.ts";
+import { log, badMethod } from "../utils.ts";
 import { client } from "../client.ts";
 
 export async function userHandler(
   event: APIGatewayProxyEvent,
   context: Context,
 ): Promise<APIGatewayProxyResult> {
-  const document: Doc = await client.listTables();
-  const result = { document: JSON.stringify(document) };
-  return log(result);
-  // return {
-  //   statusCode: 200,
-  //   headers: { "content-type": "text/html;charset=utf8" },
-  //   body: `Welcome to deno ${Deno.version.deno} 🦕 this is the index file`,
+  const method = event.httpMethod;
+  if (method === "POST") {
+    const result = await client.putItem(
+      { TableName: "bid-euchre-user", Item: {
+        [uuid()]: {
+          nickname: "Noodle",
+        },
+      } },
+    ).catch((error) => ({ error }));
+    return log(result);
+  } else {
+    return badMethod(method);
+  }
+  // const example = {
+  //   "ConditionalOperator": "string",
+  //   "ConditionExpression": "string",
+  //   "Expected": {
+  //     "string": {
+  //       "AttributeValueList": [
+  //         {
+  //           "B": blob,
+  //           "BOOL": boolean,
+  //           "BS": [blob],
+  //           "L": [
+  //             "AttributeValue",
+  //           ],
+  //           "M": {
+  //             "string": "AttributeValue",
+  //           },
+  //           "N": "string",
+  //           "NS": ["string"],
+  //           "NULL": boolean,
+  //           "S": "string",
+  //           "SS": ["string"],
+  //         },
+  //       ],
+  //       "ComparisonOperator": "string",
+  //       "Exists": boolean,
+  //       "Value": {
+  //         "B": blob,
+  //         "BOOL": boolean,
+  //         "BS": [blob],
+  //         "L": [
+  //           "AttributeValue",
+  //         ],
+  //         "M": {
+  //           "string": "AttributeValue",
+  //         },
+  //         "N": "string",
+  //         "NS": ["string"],
+  //         "NULL": boolean,
+  //         "S": "string",
+  //         "SS": ["string"],
+  //       },
+  //     },
+  //   },
+  //   "ExpressionAttributeNames": {
+  //     "string": "string",
+  //   },
+  //   "ExpressionAttributeValues": {
+  //     "string": {
+  //       "B": blob,
+  //       "BOOL": boolean,
+  //       "BS": [blob],
+  //       "L": [
+  //         "AttributeValue",
+  //       ],
+  //       "M": {
+  //         "string": "AttributeValue",
+  //       },
+  //       "N": "string",
+  //       "NS": ["string"],
+  //       "NULL": boolean,
+  //       "S": "string",
+  //       "SS": ["string"],
+  //     },
+  //   },
+  //   "Item": {
+  //     "string": {
+  //       "B": blob,
+  //       "BOOL": boolean,
+  //       "BS": [blob],
+  //       "L": [
+  //         "AttributeValue",
+  //       ],
+  //       "M": {
+  //         "string": "AttributeValue",
+  //       },
+  //       "N": "string",
+  //       "NS": ["string"],
+  //       "NULL": boolean,
+  //       "S": "string",
+  //       "SS": ["string"],
+  //     },
+  //   },
+  //   "ReturnConsumedCapacity": "string",
+  //   "ReturnItemCollectionMetrics": "string",
+  //   "ReturnValues": "string",
+  //   "TableName": "string",
   // };
 }
