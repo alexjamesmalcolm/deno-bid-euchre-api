@@ -12,7 +12,7 @@ export async function handler(
   event: APIGatewayProxyEvent,
   context: Context,
 ): Promise<APIGatewayProxyResult> {
-  const resource: string = event.resource;
+  const resource: string = event.path;
   if (resource.startsWith("/user")) return userHandler(event, context);
   else if (resource.startsWith("/lobby")) return lobbyHandler(event, context);
   else if (resource.startsWith("/leaderboard")) {
